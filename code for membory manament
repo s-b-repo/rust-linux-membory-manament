@@ -1,0 +1,385 @@
+use std::ptr;
+
+fn allocate_memory(size: usize) -> *mut u8 {
+    let mut ptr: *mut u8 = ptr::null_mut();
+    unsafe {
+        ptr = libc::malloc(size) as *mut u8;
+        if ptr.is_null() {
+            panic!("Error allocating memory");
+        }
+    }
+    ptr
+}
+
+fn deallocate_memory(ptr: *mut u8) {
+    unsafe {
+        libc::free(ptr as *mut libc::c_void);
+    }
+}
+
+fn main() {
+    let size = 10;
+    let ptr = allocate_memory(size);
+
+    unsafe {
+        *ptr.offset(0) = 1;
+        *ptr.offset(1) = 2;
+        *ptr.offset(2) = 3;
+        *ptr.offset(3) = 4;
+        *ptr.offset(4) = 5;
+        *ptr.offset(5) = 6;
+        *ptr.offset(6) = 7;
+        *ptr.offset(7) = 8;
+        *ptr.offset(8) = 9;
+        *ptr.offset(9) = 10;
+    }
+
+    for i in 0..size {
+        println!("{}", unsafe { *ptr.offset(i) });
+    }
+
+    deallocate_memory(ptr);
+}
+
+fn allocate_memory(size: usize) -> *mut u8 {
+    let mut ptr: *mut u8 = ptr::null_mut();
+    unsafe {
+        ptr = libc::malloc(size) as *mut u8;
+        if ptr.is_null() {
+            panic!("Error allocating memory");
+        }
+    }
+    ptr
+}
+
+fn reallocate_memory(ptr: *mut u8, size: usize) -> *mut u8 {
+    let mut new_ptr: *mut u8 = ptr::null_mut();
+    unsafe {
+        new_ptr = libc::realloc(ptr as *mut libc::c_void, size) as *mut u8;
+        if new_ptr.is_null() {
+            panic!("Error reallocating memory");
+        }
+    }
+    new_ptr
+}
+
+fn main() {
+    let size = 10;
+    let ptr = allocate_memory(size);
+
+    unsafe {
+        *ptr.offset(0) = 1;
+        *ptr.offset(1) = 2;
+        *ptr.offset(2) = 3;
+        *ptr.offset(3) = 4;
+        *ptr.offset(4) = 5;
+        *ptr.offset(5) = 6;
+        *ptr.offset(6) = 7;
+        *ptr.offset(7) = 8;
+        *ptr.offset(8) = 9;
+        *ptr.offset(9) = 10;
+    }
+
+    for i in 0..size {
+        println!("{}", unsafe { *ptr.offset(i) });
+    }
+
+    let new_size = 20;
+    let new_ptr = reallocate_memory(ptr, new_size);
+
+    unsafe {
+        *new_ptr.offset(10) = 11;
+        *new_ptr.offset(11) = 12;
+        *new_ptr.offset(12) = 13;
+        *new_ptr.offset(13) = 14;
+        *new_ptr.offset(14) = 15;
+        *new_ptr.offset(15) = 16;
+        *new_ptr.offset(16) = 17;
+        *new_ptr.offset(17) = 18;
+        *new_ptr.offset(18) = 19;
+        *new_ptr.offset(19) = 20;
+    }
+
+    for i in 0..new_size {
+        println!("{}", unsafe { *new_ptr.offset(i) });
+    }
+
+    deallocate_memory(new_ptr);
+}
+
+fn copy_memory(src: *const u8, dest: *mut u8, size: usize) {
+    unsafe {
+        libc::memcpy(dest as *mut libc::c_void, src as *const libc::c_void, size);
+    }
+}
+
+fn main() {
+    let size = 10;
+    let ptr = allocate_memory(size);
+
+    unsafe {
+        *ptr.offset(0) = 1;
+        *ptr.offset(1) = 2;
+        *ptr.offset(2) = 3;
+        *ptr.offset(3) = 4;
+        *ptr.offset(4) = 5;
+        *ptr.offset(5) = 6;
+        *ptr.offset(6) = 7;
+        *ptr.offset(7) = 8;
+        *ptr.offset(8) = 9;
+        *ptr.offset(9) = 10;
+    }
+
+    for i in 0..size {
+        println!("{}", unsafe { *ptr.offset(i) });
+    }
+
+    let new_size = 20;
+    let new_ptr = allocate_memory(new_size);
+    copy_memory(ptr, new_ptr, size);
+
+    unsafe {
+        *new_ptr.offset(10) = 11;
+        *new_ptr.offset(11) = 12;
+        *new_ptr.offset(12) = 13;
+        *new_ptr.offset(13) = 14;
+        *new_ptr.offset(14) = 15;
+        *new_ptr.offset(15) = 16;
+        *new_ptr.offset(16) = 17;
+        *new_ptr.offset(17) = 18;
+        *new_ptr.offset(18) = 19;
+        *new_ptr.offset(19) = 20;
+    }
+
+    for i in 0..new_size {
+        println!("{}", unsafe { *new_ptr.offset(i) });
+    }
+
+    deallocate_memory(ptr);
+    deallocate_memory(new_ptr);
+}
+fn set_memory(ptr: *mut u8, value: u8, size: usize) {
+    unsafe {
+        libc::memset(ptr as *mut libc::c_void, value as libc::c_int, size);
+    }
+}
+
+fn main() {
+    let size = 10;
+    let ptr = allocate_memory(size);
+
+    unsafe {
+        *ptr.offset(0) = 1;
+        *ptr.offset(1) = 2;
+        *ptr.offset(2) = 3;
+        *ptr.offset(3) = 4;
+        *ptr.offset(4) = 5;
+        *ptr.offset(5) = 6;
+        *ptr.offset(6) = 7;
+        *ptr.offset(7) = 8;
+        *ptr.offset(8) = 9;
+        *ptr.offset(9) = 10;
+    }
+
+    for i in 0..size {
+        println!("{}", unsafe { *ptr.offset(i) });
+    }
+
+    let new_size = 20;
+    let new_ptr = allocate_memory(new_size);
+    copy_memory(ptr, new_ptr, size);
+
+    unsafe {
+        *new_ptr.offset(10) = 11;
+        *new_ptr.offset(11) = 12;
+        *new_ptr.offset(12) = 13;
+        *new_ptr.offset(13) = 14;
+        *new_ptr.offset(14) = 15;
+        *new_ptr.offset(15) = 16;
+        *new_ptr.offset(16) = 17;
+        *new_ptr.offset(17) = 18;
+        *new_ptr.offset(18) = 19;
+        *new_ptr.offset(19) = 20;
+    }
+
+    for i in 0..new_size {
+        println!("{}", unsafe { *new_ptr.offset(i) });
+    }
+
+    set_memory(new_ptr, 0, new_size);
+    for i in 0..new_size {
+        println!("{}", unsafe { *new_ptr.offset(i) });
+    }
+
+    deallocate_memory(ptr);
+    deallocate_memory(new_ptr);
+}
+
+fn compare_memory(ptr1: *const u8, ptr2: *const u8, size: usize) -> i32 {
+    unsafe {
+        libc::memcmp(ptr1 as *const libc::c_void, ptr2 as *const libc::c_void, size)
+    }
+}
+
+fn main() {
+    let size = 10;
+    let ptr1 = allocate_memory(size);
+    let ptr2 = allocate_memory(size);
+
+    unsafe {
+        *ptr1.offset(0) = 1;
+        *ptr1.offset(1) = 2;
+        *ptr1.offset(2) = 3;
+        *ptr1.offset(3) = 4;
+        *ptr1.offset(4) = 5;
+        *ptr1.offset(5) = 6;
+        *ptr1.offset(6) = 7;
+        *ptr1.offset(7) = 8;
+        *ptr1.offset(8) = 9;
+        *ptr1.offset(9) = 10;
+
+        *ptr2.offset(0) = 1;
+        *ptr2.offset(1) = 2;
+        *ptr2.offset(2) = 3;
+        *ptr2.offset(3) = 4;
+        *ptr2.offset(4) = 5;
+        *ptr2.offset(5) = 6;
+        *ptr2.offset(6) = 7;
+        *ptr2.offset(7) = 8;
+        *ptr2.offset(8) = 9;
+        *ptr2.offset(9) = 10;
+    }
+
+    let result = compare_memory(ptr1, ptr2, size);
+    println!("{}", result);
+
+    deallocate_memory(ptr1);
+    deallocate_memory(ptr2);
+}
+
+fn main() {
+    let size = 10;
+    let ptr1 = allocate_memory(size);
+    let ptr2 = allocate_memory(size);
+
+    unsafe {
+        *ptr1.offset(0) = 1;
+        *ptr1.offset(1) = 2;
+        *ptr1.offset(2) = 3;
+        *ptr1.offset(3) = 4;
+        *ptr1.offset(4) = 5;
+        *ptr1.offset(5) = 6;
+        *ptr1.offset(6) = 7;
+        *ptr1.offset(7) = 8;
+        *ptr1.offset(8) = 9;
+        *ptr1.offset(9) = 10;
+
+        *ptr2.offset(0) = 1;
+        *ptr2.offset(1) = 2;
+        *ptr2.offset(2) = 3;
+        *ptr2.offset(3) = 4;
+        *ptr2.offset(4) = 5;
+        *ptr2.offset(5) = 6;
+        *ptr2.offset(6) = 7;
+        *ptr2.offset(7) = 8;
+        *ptr2.offset(8) = 9;
+        *ptr2.offset(9) = 11;
+    }
+
+    let result = compare_memory(ptr1, ptr2, size);
+    if result < 0 {
+        println!("ptr1 is less than ptr2");
+    } else if result > 0 {
+        println!("ptr1 is greater than ptr2");
+    } else {
+        println!("ptr1 is equal to ptr2");
+    }
+
+    deallocate_memory(ptr1);
+    deallocate_memory(ptr2);
+}
+
+fn move_memory(src: *const u8, dest: *mut u8, size: usize) {
+    unsafe {
+        libc::memmove(dest as *mut libc::c_void, src as *const libc::c_void, size);
+    }
+}
+
+fn main() {
+    let size = 10;
+    let ptr = allocate_memory(size);
+
+    unsafe {
+        *ptr.offset(0) = 1;
+        *ptr.offset(1) = 2;
+        *ptr.offset(2) = 3;
+        *ptr.offset(3) = 4;
+        *ptr.offset(4) = 5;
+        *ptr.offset(5) = 6;
+        *ptr.offset(6) = 7;
+        *ptr.offset(7) = 8;
+        *ptr.offset(8) = 9;
+        *ptr.offset(9) = 10;
+    }
+
+    let new_ptr = allocate_memory(size);
+    move_memory(ptr, new_ptr, size);
+
+    for i in 0..size {
+        println!("{}", unsafe { *new_ptr.offset(i) });
+    }
+
+    deallocate_memory(ptr);
+    deallocate_memory(new_ptr);
+}
+
+fn main() {
+    let size = 10;
+    let ptr = allocate_memory(size);
+
+    unsafe {
+        *ptr.offset(0) = 1;
+        *ptr.offset(1) = 2;
+        *ptr.offset(2) = 3;
+        *ptr.offset(3) = 4;
+        *ptr.offset(4) = 5;
+        *ptr.offset(5) = 6;
+        *ptr.offset(6) = 7;
+        *ptr.offset(7) = 8;
+        *ptr.offset(8) = 9;
+        *ptr.offset(9) = 10;
+    }
+
+    let new_ptr = allocate_memory(size);
+    move_memory(ptr, new_ptr, size);
+
+    for i in 0..size {
+        println!("{}", unsafe { *new_ptr.offset(i) });
+    }
+
+    let src_ptr = allocate_memory(size);
+    let dest_ptr = allocate_memory(size);
+
+    unsafe {
+        *src_ptr.offset(0) = 11;
+        *src_ptr.offset(1) = 12;
+        *src_ptr.offset(2) = 13;
+        *src_ptr.offset(3) = 14;
+        *src_ptr.offset(4) = 15;
+        *src_ptr.offset(5) = 16;
+        *src_ptr.offset(6) = 17;
+        *src_ptr.offset(7) = 18;
+        *src_ptr.offset(8) = 19;
+        *src_ptr.offset(9) = 20;
+    }
+
+    move_memory(src_ptr, dest_ptr, size);
+
+for i in 0..size {
+    println!("{}", unsafe { *dest_ptr.offset(i) });
+}
+
+deallocate_memory(src_ptr);
+deallocate_memory(dest_ptr);
+deallocate_memory(ptr);
+deallocate_memory(new_ptr);
