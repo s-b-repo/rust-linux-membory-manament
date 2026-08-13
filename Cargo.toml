@@ -1,0 +1,40 @@
+[package]
+name = "rust-linux-memory-management"
+version = "0.1.0"
+edition = "2021"
+authors = ["s-b-repo"]
+description = "Seven small teaching examples that call libc allocation and memory primitives (malloc/free/realloc/memcpy/memset/memcmp/memmove) directly from Rust."
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/s-b-repo/rust-linux-membory-manament"
+
+[dependencies]
+libc = "0.2"
+
+[[example]]
+name = "01_alloc"
+path = "examples/01_alloc.rs"
+
+[[example]]
+name = "02_realloc"
+path = "examples/02_realloc.rs"
+
+[[example]]
+name = "03_memcpy"
+path = "examples/03_memcpy.rs"
+
+[[example]]
+name = "04_memset"
+path = "examples/04_memset.rs"
+
+[[example]]
+name = "05_memcmp_equal"
+path = "examples/05_memcmp_equal.rs"
+
+[[example]]
+name = "06_memcmp_diff"
+path = "examples/06_memcmp_diff.rs"
+
+[[example]]
+name = "07_memmove"
+path = "examples/07_memmove.rs"
